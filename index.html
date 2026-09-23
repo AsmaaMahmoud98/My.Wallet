@@ -199,7 +199,7 @@ function getMonthOpeningBalance(bank, monthKey) {
   if (!bank.months) return 0;
   const sortedMonths = Object.keys(bank.months).sort();
   if (sortedMonths.length === 0 || monthKey <= sortedMonths[0]) {
-    return 0; // أول شهر الرصيد الافتتاحي دائمًا 0
+    return 0;
   }
 
   let cumulative = 0;
@@ -505,7 +505,6 @@ function App() {
 
   return (
     <div dir="rtl" className="min-h-screen bg-slate-100 text-slate-800">
-      {/* شريط الحصالات العلوي + خيار الحذف عل اليسار */}
       <div className="sticky top-0 z-20 bg-white border-b border-slate-200">
         <div className="flex items-center justify-between px-3 pt-2">
           <div className="flex items-stretch gap-1 overflow-x-auto no-scrollbar">
@@ -571,7 +570,6 @@ function App() {
 
       {activeBank && (
         <div className="max-w-lg mx-auto px-4 pb-16 pt-4">
-          {/* محول الأشهر */}
           <div className="flex items-center justify-between bg-white rounded-xl p-2.5 border border-slate-200 mb-5">
             <button
               onClick={() => setSelectedMonth(getPrevMonthKey(selectedMonth))}
@@ -590,7 +588,6 @@ function App() {
             </button>
           </div>
 
-          {/* رصيد الشهر وحالته */}
           <div className="bg-white rounded-2xl p-5 border border-slate-200 mb-6 text-center shadow-sm">
             <div className="text-xs text-slate-400 mb-1">الرصيد النهائي للشهر</div>
             <div className="flex items-baseline justify-center gap-2 mb-4">
@@ -628,7 +625,6 @@ function App() {
             )}
           </div>
 
-          {/* أزرار الإيداع والصرف */}
           <div className="grid grid-cols-2 gap-3 mb-6">
             <button
               onClick={() => setModal('deposit')}
@@ -646,7 +642,6 @@ function App() {
             </button>
           </div>
 
-          {/* سجل المعاملات */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="text-xs font-semibold text-slate-500">سجل معاملات الشهر</div>
@@ -1130,17 +1125,23 @@ function ReportView({ report, onClose }) {
           {report.fromDate ? formatDateOnly(report.fromDate) : 'بداية الحصالة'} — {report.toDate ? formatDateOnly(report.toDate) : 'حتى الآن'}
         </div>
 
-        {/* 2. إجمالي الإيداعات والمصروفات */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="rounded-xl border border-slate-200 p-4 bg-emerald-50/30">
+        {/* 2. الرصيد النهائي + إجمالي الإيداعات والمصروفات */}
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="rounded-xl border border-slate-200 p-3 bg-slate-50/50">
+            <div className="text-xs text-slate-500 mb-1">الرصيد النهائي للفترة</div>
+            <div dir="ltr" className="text-base font-bold" style={{ color: INK.dark }}>
+              {formatAmount(report.closing)} ج.م
+            </div>
+          </div>
+          <div className="rounded-xl border border-slate-200 p-3 bg-emerald-50/30">
             <div className="text-xs text-slate-500 mb-1">إجمالي الإيداعات</div>
-            <div dir="ltr" className="text-lg font-bold" style={{ color: INK.deposit }}>
+            <div dir="ltr" className="text-base font-bold" style={{ color: INK.deposit }}>
               +{formatAmount(report.depositTotal)} ج.م
             </div>
           </div>
-          <div className="rounded-xl border border-slate-200 p-4 bg-rose-50/30">
+          <div className="rounded-xl border border-slate-200 p-3 bg-rose-50/30">
             <div className="text-xs text-slate-500 mb-1">إجمالي المصروفات</div>
-            <div dir="ltr" className="text-lg font-bold" style={{ color: INK.expense }}>
+            <div dir="ltr" className="text-base font-bold" style={{ color: INK.expense }}>
               -{formatAmount(report.expenseTotal)} ج.م
             </div>
           </div>
